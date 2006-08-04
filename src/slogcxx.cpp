@@ -2,7 +2,8 @@
 /// \file
 /// \brief Logging class to write messages to console and file
 ///
-/// Copyright (c) 2006 Data Visualization Research Lab,
+/// Copyright (c) 2006 Kurt Schwehr
+///     Data Visualization Research Lab,
 /// 	Center for Coastal and Ocean Mapping
 ///	University of New Hampshire.
 ///	http://ccom.unh.edu
@@ -48,11 +49,11 @@ Where::Where(const std::string &_file, const int _lineno, const std::string &_fu
 
 
 //////////////////////////////////////////////////////////////////////
-// slog class methods
+// Slog class methods
 //////////////////////////////////////////////////////////////////////
 
 
-slog::slog(const std::string &filename, const std::string &indentStr,
+Slog::Slog(const std::string &filename, const std::string &indentStr,
 	   const bool append, const bool enableXml, const bool enableTime)
   : logLevel(1), msgLevel(1), curStr(""),
     xmlEnabled(enableXml), timeEnabled(enableTime)//, stateIndent(" ")//("\t")
@@ -72,7 +73,7 @@ slog::slog(const std::string &filename, const std::string &indentStr,
 }
 
 
-slog::~slog() {
+Slog::~Slog() {
   if (0<stateStack.size()) {
     cerr << "WARNING: shutting down the logger with open scopes.\n" 
 	 << "  I hope you know what you are doing" << endl;
@@ -92,7 +93,7 @@ slog::~slog() {
 //#define TIME_T int
 
 bool
-slog::entry(const int lvl, const std::string str) {
+Slog::entry(const int lvl, const std::string str) {
   if (lvl>logLevel) return false; // Not powerful enough to get out
   //cerr << getStateNumberStr() << " " << getCurScope() << ":" << indent << str << endl;
   cerr << getStateNumberStr() << indent() << getCurScope() << ": " << str << endl;
@@ -127,7 +128,7 @@ slog::entry(const int lvl, const std::string str) {
 
 // See also operator<< on a Where class object
 // FIX: consider removing this from the interface.
-bool slog::where(const std::string &file, const int lineno, const std::string &function) {
+bool Slog::where(const std::string &file, const int lineno, const std::string &function) {
   stringstream sstr;
   if (xmlEnabled) {
     sstr << "<where file=\""<<file<<"\" line=\""<<lineno<<"\" function=\""<<function+"\"/>";
@@ -140,14 +141,14 @@ bool slog::where(const std::string &file, const int lineno, const std::string &f
 }
 
 bool
-slog::partial(const int lvl, const std::string str) {
+Slog::partial(const int lvl, const std::string str) {
   if (lvl>logLevel) return false; // Not powerful enough to get out
   curStr += str;
   return true;
 }
 
 bool
-slog::complete() {
+Slog::complete() {
   if (0==curStr.length()) return false; // Nothing to log, so ignore the request
   entry(ALWAYS,curStr); // We got this far so for a message to go out.
   curStr="";
@@ -158,7 +159,7 @@ slog::complete() {
 // State
 
 std::string 
-slog::indent() {
+Slog::indent() {
   std::string s;
   const int depth=getStateDepth();
   for (int i=0;i<depth;i++) s+=stateIndent;
@@ -166,7 +167,7 @@ slog::indent() {
 }
 
 std::string 
-slog::getStateNumberStr() {
+Slog::getStateNumberStr() {
   stringstream sstr;
   sstr << getStateDepth();
   std::string s = sstr.str();
@@ -176,7 +177,7 @@ slog::getStateNumberStr() {
 
 // FIX: implement with xml goodness... now it just does scopes in straight text.
 void
-slog::writeState(bool flat) {
+Slog::writeState(bool flat) {
   if (flat) {
     std::vector<std::string>::iterator itor;
     for(itor = stateStack.begin(); itor!=stateStack.end(); itor++) {
@@ -202,7 +203,7 @@ slog::writeState(bool flat) {
 }
 
 void 
-slog::pushState(std::string scope, int msgLvl) {
+Slog::pushState(std::string scope, int msgLvl) {
   if (xmlEnabled) logFile << indent() << "<scope name=\""<< scope <<"\">" << endl;
   stateStack.push_back(scope);
   if (msgLvl != -1)
@@ -217,7 +218,7 @@ slog::pushState(std::string scope, int msgLvl) {
 }
 
 std::string
-slog::popState() {
+Slog::popState() {
   assert(!stateStack.empty()); // FIX: is it right to fail?
   std::string s=stateStack[stateStack.size()-1];
   int ml = msgLvlStack[msgLvlStack.size()-1];
@@ -237,21 +238,21 @@ slog::popState() {
 //////////////////////////////////////////////////////////////////////
 
 // FIX: inline these for speed!
-slog& operator<<(slog&s, slog&(*manip)(slog&)) {
+Slog& operator<<(Slog&s, Slog&(*manip)(Slog&)) {
   return manip(s);
 }
 
-slog& endl(slog& s) {
+Slog& endl(Slog& s) {
   s.complete();
   return s;
 }
 
-slog& incl(slog& s) {
+Slog& incl(Slog& s) {
   s.incMsg();
   return s;
 }
 
-slog& decl(slog& s) {
+Slog& decl(Slog& s) {
   s.decMsg();
   return s;
 }
@@ -265,7 +266,7 @@ slog& decl(slog& s) {
 // stringstream is probably not the fastest way to do this
 // FIX: This should be templated!!
 
-slog& operator<< (slog &s, const int &r) {
+Slog& operator<< (Slog &s, const int &r) {
   int lvl = s.getMsgLevel();
   stringstream sstr;
   sstr << r;
@@ -273,7 +274,7 @@ slog& operator<< (slog &s, const int &r) {
   return s;
 }
 
-slog& operator<< (slog &s, const char &c) {
+Slog& operator<< (Slog &s, const char &c) {
   int lvl = s.getMsgLevel();
   stringstream sstr;
   sstr << c;
@@ -281,7 +282,7 @@ slog& operator<< (slog &s, const char &c) {
   return s;
 }
 
-slog& operator<< (slog &s, const short &sh) {
+Slog& operator<< (Slog &s, const short &sh) {
   int lvl = s.getMsgLevel();
   stringstream sstr;
   sstr << sh;
@@ -289,7 +290,7 @@ slog& operator<< (slog &s, const short &sh) {
   return s;
 }
 
-slog& operator<< (slog &s, const long &l) {
+Slog& operator<< (Slog &s, const long &l) {
   int lvl = s.getMsgLevel();
   stringstream sstr;
   sstr << l;
@@ -297,7 +298,7 @@ slog& operator<< (slog &s, const long &l) {
   return s;
 }
 
-slog& operator<< (slog &s, const float &f) {
+Slog& operator<< (Slog &s, const float &f) {
   int lvl = s.getMsgLevel();
   stringstream sstr;
   sstr << f;
@@ -305,7 +306,7 @@ slog& operator<< (slog &s, const float &f) {
   return s;
 }
 
-slog& operator<< (slog &s, const double &d) {
+Slog& operator<< (Slog &s, const double &d) {
   int lvl = s.getMsgLevel();
   stringstream sstr;
   sstr << d;
@@ -313,13 +314,13 @@ slog& operator<< (slog &s, const double &d) {
   return s;
 }
 
-slog& operator<< (slog &s, const char *str) {
+Slog& operator<< (Slog &s, const char *str) {
   int lvl = s.getMsgLevel();
   s.partial(lvl,string(str));
   return s;
 }
 
-slog& operator<< (slog &s, const std::string &str) {
+Slog& operator<< (Slog &s, const std::string &str) {
   int lvl = s.getMsgLevel();
   s.partial(lvl,str);
   return s;
@@ -332,7 +333,7 @@ slog& operator<< (slog &s, const std::string &str) {
 //////////////////////////////////////////////////////////////////////
 
 
-slog& operator<< (slog &s, const Where &w) {
+Slog& operator<< (Slog &s, const Where &w) {
     stringstream sstr;
     if (s.getXmlStatus()) {
 	sstr << "<where file=\""<<w.getFile()<<"\" line=\""<<w.getLineno()<<"\" function=\""<<w.getFunction()+"\"/>";
@@ -349,7 +350,7 @@ slog& operator<< (slog &s, const Where &w) {
 // LogState
 //////////////////////////////////////////////////////////////////////
 
-LogState::LogState(slog *logInstance, const std::string &scope, int msgLvl) 
+LogState::LogState(Slog *logInstance, const std::string &scope, int msgLvl) 
   : log(logInstance), popped(false)
 {
   assert(logInstance);

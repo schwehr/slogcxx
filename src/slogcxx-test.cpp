@@ -3,7 +3,8 @@
 /// \file
 /// \brief Testing routines for slogcxx (slog-icks)
 ///
-/// Copyright (c) 2006 Data Visualization Research Lab,
+/// Copyright (c) 2006 Kurt Schwehr
+///     Data Visualization Research Lab,
 /// 	Center for Coastal and Ocean Mapping
 ///	University of New Hampshire.
 ///	http://ccom.unh.edu
@@ -55,7 +56,7 @@
 bool testFile() {
   // Logging to a file
   {
-    slog l("foo.log"," ",false,false);
+    Slog l("foo.log"," ",false,false);
     l.entry(ALWAYS,"Hello World");
     l.enableXml();
     l.entry(ALWAYS,"Hello World in XML");
@@ -66,7 +67,7 @@ bool testFile() {
 /// Try out writing to a file in xml mode with one LogState
 bool testFileXml() {
   {
-    slog l("fooXml.log"," ",true,true);
+    Slog l("fooXml.log"," ",true,true);
     l.entry(ALWAYS,"Hello World in XML");
     {
       LogState ls(&l,"lvl_1");
@@ -78,7 +79,7 @@ bool testFileXml() {
 
 /// Try out a couple scopes
 bool testHeavyScope() {
-  slog l("foo-testScoping.log");
+  Slog l("foo-testScoping.log");
   //l.setStateIndent("\t");
   LogState ls1(&l,"one");
   {
@@ -97,7 +98,7 @@ bool testHeavyScope() {
 
 /// Try out many scopes without xml.  Should still indent
 bool testHeavyScopeNoXml() {
-  slog l("foo-testScopingNoXml.log"," ",false,false,true);
+  Slog l("foo-testScopingNoXml.log"," ",false,false,true);
   //l.setStateIndent("\t");
   LogState ls1(&l,"one");
   {
@@ -117,7 +118,7 @@ bool testHeavyScopeNoXml() {
 
 /// Make a ton of scopes and leave them without closing.  Generates a runtime warning.
 bool testScope() {
-  slog l("scopeTests.log");
+  Slog l("scopeTests.log");
   l.pushState("one");
   l.pushState("2");
   l.pushState("3");
@@ -133,7 +134,7 @@ bool testScope() {
 
 /// Go crazy with scoping and use incl/decl and incMsg;
 bool testScopeWithMsgLvl() {
-  slog l("scopeTestsWithMsgLvl.log");
+  Slog l("scopeTestsWithMsgLvl.log");
 
   l.setLevel(TERSE);
 
@@ -182,7 +183,7 @@ bool testScopeWithMsgLvl() {
 bool testBig() {
   // FIX: change asserts to tests!!!
 
-  slog log("foo2.log"," ",false,false,false);
+  Slog log("foo2.log"," ",false,false,false);
 
   log << 1;
   log << endl;
@@ -264,14 +265,14 @@ bool testBig() {
 
 /// This is about as simple a test as can be made
 bool testSimple() {
-  slog l("fooSimple.log");
+  Slog l("fooSimple.log");
   l << "Hello World" << endl;
   return true;
 }
 
 /// Test out all the types available.
 bool testTypes() {
-  slog l("types.log");
+  Slog l("types.log");
   l << "int: " << int(1) << endl;
   char *cstr="c style string";
   l << cstr << endl;
@@ -288,13 +289,13 @@ bool testTypes() {
 class whereClassTest {
 public:
   /// Some method that does logging
-  void doWhere(slog &s) { s << "Call where in a class method " << WHERE << endl;}
+  void doWhere(Slog &s) { s << "Call where in a class method " << WHERE << endl;}
 };
 
 /// Try out the where and WHERE calls
 bool testWhere() {
   {
-    slog l("test-where-noxml.log","\t",false,false);
+    Slog l("test-where-noxml.log","\t",false,false);
     l.where("a file",123456,"some function");
     l.complete();
 
@@ -303,7 +304,7 @@ bool testWhere() {
     l.complete();
   }
   {
-    slog l("test-where-xml.log","\t");
+    Slog l("test-where-xml.log","\t");
     l.where("a file",123456,"some function");
     l.complete();
 

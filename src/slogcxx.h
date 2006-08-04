@@ -1,14 +1,14 @@
 //////////////////////////////////////////////////////////////////////
-// Copyright (c) 2006 Data Visualization Research Lab,
-// 	Center for Coastal and Ocean Mapping
-//	University of New Hampshire.
-//	http://ccom.unh.edu
-//
+/// Copyright (c) 2006 Kurt Schwehr
+///     Data Visualization Research Lab,
+/// 	Center for Coastal and Ocean Mapping
+///	University of New Hampshire.
+///	http://ccom.unh.edu
+///
 /// @file
 /// @brief Logging class to write messages to console and file
 ///
 /// @todo FIX: make namespaces work
-/// @todo FIX: put the current scope in the log messages
 /// @todo FIX: put macros that do __FILE__ and __LINE__ additions
 //////////////////////////////////////////////////////////////////////
 
@@ -55,7 +55,7 @@
 
 /*! \brief Manipulator like item that writes out the location of the log entry.
  \code
- slog l;
+ Slog l;
  l << WHERE << "Example of recording where in the code we are" << endl;
  \endcode
  */
@@ -129,7 +129,7 @@ enum LogLevelsEnum {
 
 int
 main(int argc, char *argv[]) {
-  slog log;
+  Slog log;
   log << "argc " << argc << endl;
   log << "argv[0] " << argv[0] << endl;
   return (EXIT_SUCCESS);
@@ -148,7 +148,7 @@ Here is a slightly more complicated example that logs to a file and uses a few m
 \code
 int
 main(int argc, char *argv[]) {
-  slog log("sample.log");
+  Slog log("sample.log");
   log << "argc " << argc << endl;
   log << "argv[0] " << argv[0] << endl;
   log << "The WHERE object marks a location in the code " << WHERE << endl;
@@ -204,7 +204,7 @@ And xml is written to the log file.  Note that there is currently a bug with wri
 */
 
 #if !defined(NLOG)
-class slog {
+class Slog {
  public:
   /// \brief simple console constructor using cerr
   ///
@@ -213,10 +213,10 @@ class slog {
   /// @param enableXml set false to write plain text to log file.  Console logging not affected.
   /// @param enableTime set to false to stop writing time to the log file entries
   /// @param indentStr Whatever string to indent by for each scope (e.g. " ", "\t" or "...")
-  slog(const std::string &filename="", const std::string &indentStr=" ", 
+  Slog(const std::string &filename="", const std::string &indentStr=" ", 
        const bool append=true, const bool enableXml=true, const bool enableTime=true);
   /// We must not have a mine shaft gap!
-  ~slog();
+  ~Slog();
 
   /// @name Verbosity
   //@{
@@ -319,8 +319,8 @@ class slog {
   // P 65 of EC++ 2nd ed wants the const.
   // FIX: is there any point in having an op=?  Should it be just an assert false?
   /// Prevent copying from happening.  How could we handle a copy?
-  slog& operator=(UNUSED const slog& rhs) {
-    std::cerr << "slog op=!" << std::endl;
+  Slog& operator=(UNUSED const Slog& rhs) {
+    std::cerr << "Slog op=!" << std::endl;
     assert ("WTF... do not copy!");
     return *this;
   }
@@ -339,29 +339,29 @@ class slog {
   
   std::ofstream logFile; ///< If open then also log to a file.
 
-}; // end slog class
+}; // end Slog class
 
 
-slog& operator<<(slog&s, slog&(*manip)(slog&)); //!< Allow the use of iomanipulators
+Slog& operator<<(Slog&s, Slog&(*manip)(Slog&)); //!< Allow the use of iomanipulators
 
-slog& endl(slog& s); //!< endl terminates a log... similar to std::endl
-slog& decl(slog& s); //!< make the message MORE likely to show up
-slog& incl(slog& s); //!< make the message LESS likely to show up
+Slog& endl(Slog& s); //!< endl terminates a log... similar to std::endl
+Slog& decl(Slog& s); //!< make the message MORE likely to show up
+Slog& incl(Slog& s); //!< make the message LESS likely to show up
 
 // Logging operators for basic types
-slog& operator<< (slog &s, const int &r); //!< Allow logging of ints
-slog& operator<< (slog &s, const char *str); //!< Allow logging of C strings
-slog& operator<< (slog &s, const std::string &str); //!< Log a string
+Slog& operator<< (Slog &s, const int &r); //!< Allow logging of ints
+Slog& operator<< (Slog &s, const char *str); //!< Allow logging of C strings
+Slog& operator<< (Slog &s, const std::string &str); //!< Log a string
 
-slog& operator<< (slog &s, const char &c); //!<  Log insertion of a single character
-slog& operator<< (slog &s, const short &sh); //!< Insert a short integer
-slog& operator<< (slog &s, const long &l); //!< Insert a long integer
-//slog& operator<< (slog &s, const long long &ll); //!< Insert a long long character
-slog& operator<< (slog &s, const float &f); //!< Insert a 4 byte float
-slog& operator<< (slog &s, const double &d); //!< Insert a 8 byte float
+Slog& operator<< (Slog &s, const char &c); //!<  Log insertion of a single character
+Slog& operator<< (Slog &s, const short &sh); //!< Insert a short integer
+Slog& operator<< (Slog &s, const long &l); //!< Insert a long integer
+//Slog& operator<< (Slog &s, const long long &ll); //!< Insert a long long character
+Slog& operator<< (Slog &s, const float &f); //!< Insert a 4 byte float
+Slog& operator<< (Slog &s, const double &d); //!< Insert a 8 byte float
 
 ////// More complicated insertions of non-basic types.
-slog& operator<< (slog &s, const Where &w); //!< Insert where object
+Slog& operator<< (Slog &s, const Where &w); //!< Insert where object
 
 
 /// @brief Put this sucker on the stack to save your state.
@@ -372,14 +372,14 @@ class LogState {
   /// @brief Create a log instance with a given scope name and optional msg level.
   ///
   /// Do not delete the log until after this state has cleared!
-  LogState(slog *logInstance, const std::string &scope, int msgLvl = -1);
+  LogState(Slog *logInstance, const std::string &scope, int msgLvl = -1);
   /// @brief Request pop.  Only pop if !popped
   /// @return the popped scope name
   std::string pop(); 
   /// Make sure that the scope has been popped
   ~LogState();
  private:
-  slog *log; //!< Handle for the associated log to allow popping
+  Slog *log; //!< Handle for the associated log to allow popping
   bool popped; //!< Cache early pop request
 };
 

@@ -1,4 +1,9 @@
 2006-08-04  Kurt Schwehr  <kurt@ccom.unh.edu>
 
+	* Switch to version 0.4
+	* Changed slog class to Slog
+
+2006-08-04  Kurt Schwehr  <kurt@ccom.unh.edu>
+
 	* Switch to version 0.3
 	* Releasing LGPL

@@ -1,6 +1,7 @@
 // -*- c++ -*- Tell emacs this is c++
 //////////////////////////////////////////////////////////////////////
-// Copyright (c) 2006 Data Visualization Research Lab,
+// Copyright (c) 2006 Kurt Schwehr
+//      Data Visualization Research Lab,
 // 	Center for Coastal and Ocean Mapping
 //	University of New Hampshire.
 //	http://ccom.unh.edu
@@ -56,19 +57,19 @@ class Where {
 
 
 //////////////////////////////////////////////////////////////////////
-// The main slog class
+// The main Slog class
 //////////////////////////////////////////////////////////////////////
 
 // FIX: probably needs help optimizing this down
-class slog {
+class Slog {
 public:
-    slog(UNUSED const std::string &filename="", const std::string &indentStr=" ", 
+    Slog(UNUSED const std::string &filename="", const std::string &indentStr=" ", 
 	 UNUSED const bool append=true, const bool enableXml=true, const bool enableTime=true)
 	: logLevel(1), msgLevel(1), curStr(""),
 	    xmlEnabled(enableXml), timeEnabled(enableTime)
 	    ,stateIndent(indentStr)
     {}
-    ~slog() {}
+    ~Slog() {}
 
     void setLevel(const int lvl) {logLevel=lvl;} 
     int getLevel() {return logLevel;}
@@ -116,8 +117,8 @@ public:
     void writeState(UNUSED bool flat=true) {}
     int getStateDepth() {return stateStack.size();};
 
-    slog& operator=(UNUSED const slog& rhs) {
-	std::cerr << "slog op=!" << std::endl;
+    Slog& operator=(UNUSED const Slog& rhs) {
+	std::cerr << "Slog op=!" << std::endl;
 	return *this;
     }
 
@@ -131,34 +132,34 @@ private:
     std::string stateIndent;
     std::vector<std::string> stateStack;
     std::vector<int> msgLvlStack;
-}; // end slog class
+}; // end Slog class
 
 
-inline slog& operator<<(slog&s, UNUSED slog&(*manip)(slog&)) {return s;}
+inline Slog& operator<<(Slog&s, UNUSED Slog&(*manip)(Slog&)) {return s;}
 
-inline slog& endl(slog& s) {return s;}
-inline slog& decl(slog& s) {return s;}
-inline slog& incl(slog& s) {return s;}
+inline Slog& endl(Slog& s) {return s;}
+inline Slog& decl(Slog& s) {return s;}
+inline Slog& incl(Slog& s) {return s;}
 
-inline slog& operator<< (slog &s, UNUSED const int &r){return s;} 
-inline slog& operator<< (slog &s, UNUSED const char *str){return s;}
-inline slog& operator<< (slog &s, UNUSED const std::string &str){return s;}
+inline Slog& operator<< (Slog &s, UNUSED const int &r){return s;} 
+inline Slog& operator<< (Slog &s, UNUSED const char *str){return s;}
+inline Slog& operator<< (Slog &s, UNUSED const std::string &str){return s;}
 
-inline slog& operator<< (slog &s, UNUSED const char &c){return s;} 
-inline slog& operator<< (slog &s, UNUSED const short &sh){return s;}
-inline slog& operator<< (slog &s, UNUSED const long &l){return s;} 
-inline slog& operator<< (slog &s, UNUSED const float &f){return s;} 
-inline slog& operator<< (slog &s, UNUSED const double &d){return s;}
+inline Slog& operator<< (Slog &s, UNUSED const char &c){return s;} 
+inline Slog& operator<< (Slog &s, UNUSED const short &sh){return s;}
+inline Slog& operator<< (Slog &s, UNUSED const long &l){return s;} 
+inline Slog& operator<< (Slog &s, UNUSED const float &f){return s;} 
+inline Slog& operator<< (Slog &s, UNUSED const double &d){return s;}
 
-inline slog& operator<< (slog &s, UNUSED const Where &w){return s;}
+inline Slog& operator<< (Slog &s, UNUSED const Where &w){return s;}
 
 
 class LogState {
 public:
-    LogState(slog *logInstance, const std::string &scope, int msgLvl = -1): log(logInstance), popped(false) {log->pushState(scope,msgLvl);}
+    LogState(Slog *logInstance, const std::string &scope, int msgLvl = -1): log(logInstance), popped(false) {log->pushState(scope,msgLvl);}
     inline std::string pop() {  if (popped) return "";  popped=true; return log->popState();}
     ~LogState() {}
 private:
-    slog *log;
+    Slog *log;
     bool popped;
 };

@@ -6,7 +6,7 @@
 
 int
 main(int argc, char *argv[]) {
-  slog log;
+  Slog log;
   log << "argc " << argc << endl;
   log << "argv[0] " << argv[0] << endl;
   return (EXIT_SUCCESS);

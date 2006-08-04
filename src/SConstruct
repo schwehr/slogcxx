@@ -1,0 +1,44 @@
+# -*- python -*-
+
+print 'Default targets:',DEFAULT_TARGETS
+print 'Build targets:',BUILD_TARGETS
+
+CXXWARNING  = ' -Wall'
+CXXWARNING += ' -Wimplicit'
+CXXWARNING += ' -pedantic'
+CXXWARNING += ' -W'
+CXXWARNING += ' -Wredundant-decls'
+CXXWARNING += ' -Werror'
+
+CXXFLAGS_DBG = '-g3 -ggdb' + CXXWARNING
+
+CXXFLAGS_OPT   = '-O3'
+CXXFLAGS_OPT += ' -funroll-loops -fexpensive-optimizations -DNDEBUG'
+CXXFLAGS_OPT += ' -fexpensive-optimizations'
+CXXFLAGS_OPT += ' -DNDEBUG'
+CXXFLAGS_OPT += ' -ffast-math'
+# -mpowerpc
+CXXFLAGS_OPT += CXXWARNING
+
+opt = Environment(CXXFLAGS=CXXFLAGS_OPT, LDPATH = '.', CPPPATH='.',LIBPATH='.')
+dbg = Environment(CXXFLAGS=CXXFLAGS_DBG, LDPATH = '.', CPPPATH='.',LIBPATH='.')
+
+#keys = dbg.Dictionary().keys()
+#keys.sort()
+#for key in keys: #dbg.Dictionary().keys().sort():
+#    print key,dbg[key]
+
+
+d = dbg.Object('slogcxx-dbg',['slogcxx.cpp'])
+dbg.Library('slogcxx-dbg',d)
+opt.Library('slogcxx',['slogcxx.cpp'])
+
+#Program(['slogcxx-test.cpp'],LIBS=['slogcxx'], LIBPATH='.',CPPPATH='.', CXXFLAGS=CXXFLAGS)
+d_test = dbg.Object('slogcxx-test-dbg',['slogcxx-test.cpp'])
+dbg.Program(d_test,LIBS=['slogcxx'])
+opt.Program(['slogcxx-test.cpp'],LIBS=['slogcxx-dbg'])
+
+#SharedLibrary('slogcxx',['slogcxx.cpp'])
+
+
+#Help()

@@ -1,0 +1,39 @@
+
+= slogcxx = 
+
+Pronouced "Sloggics".  Why that name?  Google had no hits!
+
+This is meant to be a Simple LOGging tool for C++ (cxx).
+
+
+== Why not use an existing program? ==
+
+Cause they all suck.  log4cxx looked cool, but we are unwilling to
+accept a pile full of compiler warnings.  This thing has got to be
+easy to use.  The other projects out there:
+
+    * http://log4c.sourceforge.net/
+    * http://logging.apache.org/log4cxx/ http://freshmeat.net/projects/log4cxx/
+    * http://freshmeat.net/projects/log4cpp/
+    * http://freshmeat.net/projects/rlog/
+    * http://freshmeat.net/projects/logengine/
+    * http://freshmeat.net/projects/cxlogging/ 
+
+== Goals ==
+
+Kurt offers to give a go at writing a logging class for C++.
+
+    * It has to be dead easy to learn and use.
+    * Should be able to write to the console and/or a log file.
+    * Would be nice to have a flag to allow xml output, but not essential
+    * Should allow usage of <<
+    * Should have a more string like interface too.
+    * Generate NO warnings (unlike log4cxx!}
+    * Only one header file
+    * NDEBUG flag to completely remove logging code
+    * Numeric and symbolic debug levels. Copy the log4cxx level names. 
+
+What else? I am going to read up on Scott Meyers descriptions about cout and <<.
+
+Brian Calder suggested that maybe http://harvest.sourceforge.net/
+and/or some kind of network interface might be a good idea.

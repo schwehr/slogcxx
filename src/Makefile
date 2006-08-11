@@ -11,7 +11,7 @@ CXX_WFLAGS += -Werror
 
 CXX_OPT_FLAGS  :=-funroll-loops -fexpensive-optimizations -DNDEBUG -fexpensive-optimizations -O3 -DNDEBUG -ffast-math
 
-slogcxx-test: #slogcxx-test.cpp slogcxx.o
+slogcxx-test: slogcxx-test.cpp slogcxx.o slogcxx.h
 	scons slogcxx-test
 	./slogcxx-test 2> test-stderr.log
 	doxygen

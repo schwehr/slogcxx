@@ -353,6 +353,21 @@ Slog& operator<< (Slog &s, const int &r); //!< Allow logging of ints
 Slog& operator<< (Slog &s, const char *str); //!< Allow logging of C strings
 Slog& operator<< (Slog &s, const std::string &str); //!< Log a string
 
+// FIX: can this be made to work?
+/* Quote from nntp:
+
+"You can't overload operators that involve only built in types. At
+least one operand must be of class/struct/enum type. Pointers are
+considered built in types, even if they point to user-defined
+types. Thus you cannot overload any operator that works exclusively on
+pointers."
+*/
+
+//Slog* operator<< (Slog *s, const char *str);
+//Slog* foo (Slog *s, const char *str);
+//int foo(Slog &s);
+//int foo(Slog *s);
+
 Slog& operator<< (Slog &s, const char &c); //!<  Log insertion of a single character
 Slog& operator<< (Slog &s, const short &sh); //!< Insert a short integer
 Slog& operator<< (Slog &s, const long &l); //!< Insert a long integer

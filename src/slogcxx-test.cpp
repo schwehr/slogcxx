@@ -322,6 +322,16 @@ bool testWhere() {
   return true;
 }
 
+bool testPointer() {
+    Slog *l = new Slog("test-pointer.log");
+    assert(l);
+    *l << "string" << endl;
+    *l << 6 << endl;
+    *l << 9.99 << endl;
+    delete l;
+    return true;
+}
+
 //////////////////////////////////////////////////////////////////////
 // main
 //////////////////////////////////////////////////////////////////////
@@ -345,6 +355,8 @@ int main(UNUSED int argc, UNUSED char *argv[]) {
   if (!testBig()) 		{FAILED_HERE; ok=false; std::cout << "testBig ... ERROR\n";}	 	else std::cout << "testBig ... ok\n";
 
   if (!testScopeWithMsgLvl()) {FAILED_HERE; ok=false; std::cout << "testScopeWithMsgLvl ... ERROR\n";}	 	else std::cout << "testScopeWithMsgLvl ... ok\n";
+
+  if (!testPointer())           {FAILED_HERE; ok=false; std::cout << "testPointer ... ERROR\n";}	else std::cout << "testPointer ... ok\n";
 
   // std::cout << "early"<< endl;exit(EXIT_FAILURE); // Use this line to run a subset of tests
 

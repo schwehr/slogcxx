@@ -85,7 +85,12 @@ Slog::~Slog() {
     complete();
   }
   entry(ALWAYS,"stopped logging");
-  if (logFile.is_open() && xmlEnabled) logFile << "</slogcxx>"<<endl;
+  if (logFile.is_open()) {
+      if (xmlEnabled) logFile << "</slogcxx>"<<endl;
+      logFile.flush(); // Be extra sure that everything is written out.
+      logFile.close();
+  }
+
 }
 
 /// Allow the definition of time to be tweaked.  Floats should be enough for now

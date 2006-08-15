@@ -1,0 +1,4 @@
+ * Add test that gives the slogcxx library a workout with -DNLOG
+ * Fix the time formatting
+ * Is there a way to template the operator<< ?
+ * Tools to process xml logs to help understand program behavior

@@ -274,6 +274,7 @@ bool testSimple() {
 bool testTypes() {
   Slog l("types.log");
   l << "int: " << int(1) << endl;
+  l << "size_t: " << size_t(9876541) << endl;
   char *cstr="c style string";
   l << cstr << endl;
   l << std::string("C++ STL string") << endl;

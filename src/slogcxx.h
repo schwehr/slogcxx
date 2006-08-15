@@ -350,6 +350,7 @@ Slog& incl(Slog& s); //!< make the message LESS likely to show up
 
 // Logging operators for basic types
 Slog& operator<< (Slog &s, const int &r); //!< Allow logging of ints
+Slog& operator<< (Slog &s, const size_t &r); //!< 32/64 bit safe unsigned numbers
 Slog& operator<< (Slog &s, const char *str); //!< Allow logging of C strings
 Slog& operator<< (Slog &s, const std::string &str); //!< Log a string
 

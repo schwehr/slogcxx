@@ -142,6 +142,7 @@ inline Slog& decl(Slog& s) {return s;}
 inline Slog& incl(Slog& s) {return s;}
 
 inline Slog& operator<< (Slog &s, UNUSED const int &r){return s;} 
+inline Slog& operator<< (Slog &s, UNUSED const size_t &r){return s;} 
 inline Slog& operator<< (Slog &s, UNUSED const char *str){return s;}
 inline Slog& operator<< (Slog &s, UNUSED const std::string &str){return s;}
 

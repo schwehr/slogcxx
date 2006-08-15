@@ -269,7 +269,7 @@ Slog& decl(Slog& s) {
 //////////////////////////////////////////////////////////////////////
 
 // stringstream is probably not the fastest way to do this
-// FIX: This should be templated!!
+// FIX: This should be templated!!  Or can I if there are lots of special cases?
 
 Slog& operator<< (Slog &s, const int &r) {
   int lvl = s.getMsgLevel();
@@ -278,6 +278,15 @@ Slog& operator<< (Slog &s, const int &r) {
   s.partial(lvl,sstr.str());
   return s;
 }
+
+Slog& operator<< (Slog &s, const size_t &r) {
+  int lvl = s.getMsgLevel();
+  stringstream sstr;
+  sstr << r;
+  s.partial(lvl,sstr.str());
+  return s;
+}
+
 
 Slog& operator<< (Slog &s, const char &c) {
   int lvl = s.getMsgLevel();

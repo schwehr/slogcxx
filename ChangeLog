@@ -1,3 +1,8 @@
+2006-08-15  Kurt Schwehr  <kurt@ccom.unh.edu>
+
+	* Version 0.5
+	* Support for size_t
+
 2006-08-04  Kurt Schwehr  <kurt@ccom.unh.edu>
 
 	* Switch to version 0.4

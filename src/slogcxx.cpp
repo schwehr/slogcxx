@@ -304,6 +304,14 @@ Slog& operator<< (Slog &s, const short &sh) {
   return s;
 }
 
+Slog& operator<< (Slog &s, const unsigned short &ush) {
+  int lvl = s.getMsgLevel();
+  stringstream sstr;
+  sstr << ush;
+  s.partial(lvl,sstr.str());
+  return s;
+}
+
 Slog& operator<< (Slog &s, const long &l) {
   int lvl = s.getMsgLevel();
   stringstream sstr;

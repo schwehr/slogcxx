@@ -376,6 +376,8 @@ Slog& operator<< (Slog &s, const long &l); //!< Insert a long integer
 Slog& operator<< (Slog &s, const float &f); //!< Insert a 4 byte float
 Slog& operator<< (Slog &s, const double &d); //!< Insert a 8 byte float
 
+Slog& operator<< (Slog &s, const unsigned short &ush); //!< Insert an unsigned short integer
+
 ////// More complicated insertions of non-basic types.
 Slog& operator<< (Slog &s, const Where &w); //!< Insert where object
 

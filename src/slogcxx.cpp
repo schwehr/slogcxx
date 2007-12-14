@@ -84,7 +84,9 @@ Slog::~Slog() {
     cerr << "WARNING: shutting down with uncompleted partial log message!\n  FORCING COMPLETE\n";
     complete();
   }
+#ifndef WIN32  //ifdef'd out by mdp 12/14/2007 because using strstream during shutdown causes errors on WIN32
   entry(ALWAYS,"stopped logging");
+#endif
   if (logFile.is_open()) {
       if (xmlEnabled) logFile << "</slogcxx>"<<endl;
       logFile.flush(); // Be extra sure that everything is written out.

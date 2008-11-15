@@ -17,6 +17,7 @@
 
 // C headers
 #include <cassert>
+#include <climits>
 
 // C++ headers
 #include <string>

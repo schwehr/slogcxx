@@ -1,11 +1,12 @@
 Import('env')
+import os
 
 incs = '''
 src/slogcxx.h
 src/slogcxx-nlog.h
 '''
 
-env.Install(env['inc_dir'],Split(incs))
+env.Install(os.path.join(env['install'],'include'),Split(incs))
 
 sources = '''
 src/slogcxx.cpp

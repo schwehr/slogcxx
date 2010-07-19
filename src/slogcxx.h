@@ -236,6 +236,12 @@ public:
 	/// We must not have a mine shaft gap!
 	~Slog();
 	
+	/// \brief Add output to a log file, replacing the previous one if required
+	///
+	/// @param filename	File to swap output onto
+	/// @param append	Flag: set true to append to the current file; otherwise overwrite
+	void AddLogFileOutput(const std::string& filename, const bool append);
+	
 	/// @name Verbosity
 	//@{
 	/// This controls the amount of output

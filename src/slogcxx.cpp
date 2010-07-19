@@ -77,6 +77,29 @@ xmlEnabled(enableXml), timeEnabled(enableTime), locationEnabled(enableLocation)/
 	entry(ALWAYS,"started logging");
 }
 
+void Slog::AddLogFileOutput(const std::string& filename, const bool append)
+{
+#ifdef CONCURRENT_BOOST
+	boost::mutex::scoped_lock st_lock(m_stateMutex);
+#endif
+	if (logFile.is_open()) {
+		// Terminate previous file and start with new one
+		if (xmlEnabled) logFile << "</slogcxx>"<<endl;
+		logFile.flush(); // Be extra sure that everything is written out.
+		logFile.close();
+	}
+	if (0<filename.size()) {
+		if (1<=logLevel) cerr << "Opening log file: '" << filename << "'" << endl;
+		if (append) logFile.open(filename.c_str(),ios::out | ios::app);
+		else {
+			logFile.open(filename.c_str(),ios::out); // Overwrite the old file
+			logFile.setf(ios::fixed, ios::floatfield);
+		}
+		assert (logFile.is_open());
+		if (xmlEnabled) logFile << "<slogcxx>"<<endl;
+	}
+}
+
 
 Slog::~Slog() {
 #ifdef CONCURRENT_BOOST
@@ -101,7 +124,6 @@ Slog::~Slog() {
 		logFile.flush(); // Be extra sure that everything is written out.
 		logFile.close();
 	}
-	
 }
 
 // See also operator<< on a Where class object

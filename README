@@ -18,6 +18,9 @@ projects out there:
     * http://freshmeat.net/projects/logengine/
     * http://freshmeat.net/projects/cxlogging/ 
 
+If your project grows, you may want to consider using Boost's logging facility:
+
+    * http://boost-log.sourceforge.net/libs/log/doc/html/index.html
 
 == Goals ==
 

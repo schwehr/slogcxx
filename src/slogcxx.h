@@ -8,8 +8,8 @@
 /// @file
 /// @brief Logging class to write messages to console and file
 ///
-/// @todo FIX: make namespaces work
-/// @todo FIX: put macros that do __FILE__ and __LINE__ additions
+/// @todo TODO: make namespaces work
+/// @todo TODO: put macros that do __FILE__ and __LINE__ additions
 //////////////////////////////////////////////////////////////////////
 
 #ifndef SLOGCXX_H // Include guard

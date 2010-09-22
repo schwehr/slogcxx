@@ -225,6 +225,7 @@ Slog::entry(const int lvl, const std::string str) {
 bool
 Slog::partial(const int lvl, const std::string str) {
 #ifdef CONCURRENT_BOOST
+	// TODO: Could this be done with lock.has_lock()?
 	bool need_acc_lock = false;
 	m_stateMutex.lock();
 	if (boost::this_thread::get_id() != m_currentThread) need_acc_lock = true;
@@ -239,6 +240,8 @@ Slog::partial(const int lvl, const std::string str) {
 	return true;
 }
 
+// TODO: Could we add a timeout watchdog here to stop a single thread from locking m_accumulatorMutex
+// forever?
 bool
 Slog::complete(void)
 {
